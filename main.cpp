@@ -2,11 +2,13 @@
 #include <string>
 #include <set>
 #include <vector>
-#include "Validation.h" // Include the validation header
+// validation header file
+#include "Validation.h" 
 
 using namespace std;
 const int maxSize = 2; // Maximum number of classes per student
-// Define Student class
+
+// Student class
 class Student {
 public:
     int id;
@@ -14,10 +16,11 @@ public:
     string address;
     string dob;  // Date of birth
     string contact;
-    string classes[maxSize];    // Array to store class names (up to 5)
-    int grades[maxSize];        // Grades corresponding to the 5 classes
-    int attendance[maxSize];    // Attendance for each class (e.g., number of days attended)
+    string classes[maxSize];    
+    int grades[maxSize];        
+    int attendance[maxSize];   
 
+    // Constructor to initialize the student object
     Student() {
         id = 0;
         name = "";
@@ -25,26 +28,27 @@ public:
         dob = "";
         contact = "";
         for (int i = 0; i < maxSize; i++) {
-            classes[i] = "";    // Initialize class names as empty
-            grades[i] = 0;      // Initialize grades as 0
-            attendance[i] = 0;  // Initialize attendance as 0
+            classes[i] = "";   
+            grades[i] = 0;      
+            attendance[i] = 0;  
         }
     }
     ~Student(){
-        // Destructor
-    };              // Destructor
+        
+    };             
 
 };
 
-// Define Node for linked list
+// Node for linked list
 struct Node {
-    Student student;  // Data (student object)
-    Node* next;       // Pointer to the next node
+    Student student;  
+    Node* next;      
 };
 
 // Global pointer to the head of the linked list
 Node* head = nullptr;
 
+// Function to add a new student
 void addStudent() {
     Node* newNode = new Node;
 
@@ -77,7 +81,7 @@ void addStudent() {
     cout << "Student added successfully!" << endl;
 }
 
-
+// function to remove student
 void removeStudent() {
     if (head == nullptr) {
         cout << "No students in the database to remove." << endl;
@@ -111,9 +115,11 @@ void removeStudent() {
         current = current->next;
     }
 
-    // If the loop completes, the student was not found
+    // student not found
     cout << "Student with ID " << removeId << " not found." << endl;
 }
+
+// function to search student
 void searchStudent() {
     if (head == nullptr) {
         cout << "No students in the database to search." << endl;
@@ -122,7 +128,7 @@ void searchStudent() {
 
     int searchChoice;
     cout << "Search by:\n 1. ID,\n 2. Name\n ";
-    searchChoice = getValidNumericInput(""); // Validate numeric input
+    searchChoice = getValidNumericInput("");
 
     if (searchChoice == 1) {
         // Search by ID
@@ -172,7 +178,7 @@ void searchStudent() {
                 // Display classes and corresponding grades
                 cout << "Classes: " << endl;
                 for (int i = 0; i < maxSize; i++) {
-                    if (!current->student.classes[i].empty()) { // Only show if class name is not empty
+                    if (!current->student.classes[i].empty()) { 
                         cout << " course name: " << current->student.classes[i] << endl;
                     }
                 }
@@ -186,13 +192,15 @@ void searchStudent() {
         cout << "Invalid choice. Please try again." << endl;
     }
 }
+
+// function to list all students
 void listAllStudents() {
     if (head == nullptr) {
         cout << "No students in the database." << endl;
         return;
     }
 
-    Node* current = head; // Start from the head of the list
+    Node* current = head; 
     cout << "\n=== List of All Students ===" << endl;
 
     while (current != nullptr) {
@@ -205,7 +213,7 @@ void listAllStudents() {
         // Display classes and corresponding grades
         cout << "Classes and Grades: " << endl;
         for (int i = 0; i < maxSize; i++) {
-            if (!current->student.classes[i].empty()) { // Only show if class name is not empty
+            if (!current->student.classes[i].empty()) { 
                 cout << "  " << current->student.classes[i] 
                      << " - Grade: " << current->student.grades[i] 
                      << ", Attendance: " << current->student.attendance[i] << " days" << endl;
@@ -216,6 +224,8 @@ void listAllStudents() {
         current = current->next; // Move to the next node
     }
 }
+
+// function to generate reports
 void generateReports() {
     if (head == nullptr) {
         cout << "No students in the database to generate reports." << endl;
@@ -236,7 +246,7 @@ void generateReports() {
         for (int i = 0; i < maxSize; i++) {
             studentTotal += current->student.grades[i];
         }
-        double studentAverage = studentTotal / 5.0;
+        double studentAverage = studentTotal / (double)maxSize; // Use maxSize here
 
         // Display the student summary
         cout << "ID: " << current->student.id
@@ -245,7 +255,7 @@ void generateReports() {
 
         // Update total grades and subjects
         totalGrades += studentTotal;
-        totalSubjects += 5;
+        totalSubjects += maxSize; 
 
         // Check if this student is the top performer
         if (studentAverage > highestAverage) {
@@ -267,6 +277,8 @@ void generateReports() {
              << ", Average Grade: " << highestAverage << endl;
     }
 }
+
+// function to calculate class averages
 void calculateClassAverages() {
     if (head == nullptr) {
         cout << "No students in the database to calculate averages." << endl;
@@ -301,6 +313,8 @@ void calculateClassAverages() {
         cout << "Class \"" << targetClass << "\" not found in the database." << endl;
     }
 }
+
+// function to calculate attendance
 void calculateAttendance() {
     if (head == nullptr) {
         cout << "No students in the database to calculate attendance." << endl;
@@ -335,6 +349,8 @@ void calculateAttendance() {
         cout << "Class \"" << targetClass << "\" not found in the database." << endl;
     }
 }
+
+// function to print students in class
 void printStudentsInClass() {
     if (head == nullptr) {
         cout << "No students in the database." << endl;
@@ -370,6 +386,8 @@ void printStudentsInClass() {
         cout << "No students found in class \"" << targetClass << "\"." << endl;
     }
 }
+
+// function to print all subjects
 void printAllSubjects() {
     if (head == nullptr) {
         cout << "No students in the database." << endl;
@@ -393,6 +411,8 @@ void printAllSubjects() {
         cout << subject << endl;
     }
 }
+
+// function to find top performing students
 void findTopPerformingStudents() {
     if (head == nullptr) {
         cout << "No students in the database to determine top performers." << endl;
@@ -440,8 +460,10 @@ void findTopPerformingStudents() {
         cout << "---------------------------" << endl;
     }
 }
+
+// function to generate dummy data
 void generateDummyData() {
-    const int dummyCount = 3; // Number of students to generate
+    const int dummyCount = 3; // Number of dummy student records to generate
     string names[] = {"Azzam Alkhodairi", "Ahmed Alharbi", "Fahad Alshehri"};
     string addresses[] = {"Riyadh, Saudi Arabia", "Jeddah, Saudi Arabia", "Dammam, Saudi Arabia"};
     string dobs[] = {"15/08/2000", "22/05/1999", "10/11/2001"};
@@ -474,14 +496,6 @@ void generateDummyData() {
 
 
 
-
-
-// Utility functions
-// void initializeDatabase();    // Initialize the student database
-// void saveDatabase();          // Save the database to a file
-// void loadDatabase();          // Load the database from a file
-// void displayMenu();           // Display the main menu
-
 int main() {
 
 
@@ -497,7 +511,7 @@ int main() {
         cout << "6. Print All Students in Specific Class" << endl;
         cout << "7. Print All Subjects" << endl;
         cout << "8. Find Top-Performing Students" << endl;
-        cout << "9. Generate Dummy Data" << endl; // Add this option
+        cout << "9. Generate Dummy Data" << endl;
         cout << "10. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
